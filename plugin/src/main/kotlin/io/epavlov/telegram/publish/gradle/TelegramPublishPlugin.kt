@@ -1,4 +1,4 @@
-package io.epavlov.telegram.publish.logic
+package io.epavlov.telegram.publish.gradle
 
 import org.gradle.api.Action
 import org.gradle.api.Plugin
@@ -13,9 +13,17 @@ class TelegramPublishPlugin : Plugin<Project> {
             target.extensions.create("telegramPublishConfig", TelegramPublishExtension::class.java)
 
         target.afterEvaluate {
+
             val action = object : Action<TelegramPublishTask> {
                 override fun execute(task: TelegramPublishTask) {
-                    task.getText().set(extension.text)
+                    val builds = extension.buildConfigs.get().map { it.taskName }
+                    builds.forEach { build ->
+                        val gradleTask =
+                            target.tasks.findByName(build) ?: throw Exception("Can't find task with name: $build")
+                        println("dependsOn path by $build")
+                        task.dependsOn(gradleTask.path)
+                    }
+                    task.getBuilds().set(builds)
                 }
             }
             target.tasks.register("telegramPublish", TelegramPublishTask::class.java, action)
