@@ -16,17 +16,17 @@ class TelegramPublishPlugin : Plugin<Project> {
 
             val action = object : Action<TelegramPublishTask> {
                 override fun execute(task: TelegramPublishTask) {
-                    val builds = extension.buildConfigs.get().map { it.taskName }
-                    builds.forEach { build ->
-                        val gradleTask =
-                            target.tasks.findByName(build) ?: throw Exception("Can't find task with name: $build")
-                        println("dependsOn path by $build")
+                    val configs = extension.taskList.get()
+                    configs.forEach { build ->
+                        val gradleTask = target.tasks.findByName(build.taskName)
+                            ?: throw Exception("Can't find task with name: $build")
                         task.dependsOn(gradleTask.path)
                     }
-                    task.getBuilds().set(builds)
+                    task.getConfig().set(extension)
                 }
             }
             target.tasks.register("telegramPublish", TelegramPublishTask::class.java, action)
+
         }
     }
 }

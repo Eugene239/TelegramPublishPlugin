@@ -1,40 +1,30 @@
 package io.epavlov.telegram.publish.gradle
 
+import io.epavlov.telegram.publish.logic.Core
+import io.epavlov.telegram.publish.logic.toConfiguration
+import kotlinx.coroutines.runBlocking
 import org.gradle.api.DefaultTask
-import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 abstract class TelegramPublishTask : DefaultTask() {
     @Input
-    abstract fun getBuilds(): ListProperty<String>
-
+    abstract fun getConfig(): Property<TelegramPublishExtension>
 
     @TaskAction
     fun publish() {
         println("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>")
         println(">>>>>        PUBLISH START         <<<<<")
-        exec()
+        println()
+
+        runBlocking {
+            Core.exec(getConfig().get().toConfiguration())
+        }
+
+        println()
         println(">>>>>        PUBLISH END           <<<<<")
         println("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>")
-
     }
 
-
-    private fun exec() {
-//        project.tasks.forEach {
-//            println("[TASK]: ${it.name}")
-//        }
-//        println()
-
-
-        getBuilds().get().forEach { build ->
-            val task = project.tasks.findByName(build) ?: throw Exception("Can't find task with name: $build")
-            println("[$build] task did work: ${task.didWork}")
-            println("[$build] task has outputs :${task.outputs.hasOutput}")
-        }
-//        doLast {
-//            println("DO LAST MICH")
-//        }
-    }
 }
