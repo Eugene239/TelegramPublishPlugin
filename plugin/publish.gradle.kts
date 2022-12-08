@@ -9,6 +9,7 @@ val localProperties = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "plugin.local.properties")))
 }
 
+
 configure<PublishingExtension> {
     repositories {
         maven {
