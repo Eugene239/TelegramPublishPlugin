@@ -26,6 +26,8 @@ apply(plugin = "io.epavlov.telegram.publish.plugin")
   Put your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` to your configuration
 
 ```kotlin
+// build.gradle.kts
+
 // add imports
 import io.epavlov.telegram.publish.gradle.GradlePublishTask
 import io.epavlov.telegram.publish.gradle.TelegramPublishExtension
@@ -54,6 +56,8 @@ configure<TelegramPublishExtension> {
 or
 
 ```groovy
+// build.gradle
+
 // add import
 import io.epavlov.telegram.publish.gradle.GradlePublishTask
 
