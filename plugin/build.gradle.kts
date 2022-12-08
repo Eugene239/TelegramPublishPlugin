@@ -8,7 +8,7 @@ plugins {
 
 apply(from = "publish.gradle.kts")
 
-val buildVersion = "1.0.0"
+val buildVersion = "1.0.1"
 val groupName = "io.epavlov.telegram.publish"
 
 group = groupName
