@@ -26,7 +26,7 @@ allprojects {
 ### Add plugin to classpath
 
 ```kotlin
- classpath 'io.epavlov.telegram.publish:plugin:$version'
+ classpath "com.github.Eugene239.TelegramPublishPlugin:plugin:$pluginVersion"
 ```
 
 ### Add Plugin to application
