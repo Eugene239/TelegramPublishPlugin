@@ -76,7 +76,7 @@ or
 import io.epavlov.telegram.publish.gradle.GradlePublishTask
 
 telegramPublishConfig {
-    taskList.addAll(
+    taskList = [
             new GradlePublishTask(
                     "assembleDebug",
                     file("build/outputs/apk/debug"),
@@ -89,7 +89,7 @@ telegramPublishConfig {
                     "release-",
                     ".*\\.apk"
             )
-    )
+    ]
     botToken = "$TELEGRAM_BOT_TOKEN"
     chatId = "$TELEGRAM_CHAT_ID"
     releaseNotes = "Release note text"

@@ -12,21 +12,24 @@ class TelegramPublishPlugin : Plugin<Project> {
         val extension: TelegramPublishExtension =
             target.extensions.create("telegramPublishConfig", TelegramPublishExtension::class.java)
 
+        val parent = target.parent?.project ?: target
+
         target.afterEvaluate {
 
             val action = object : Action<TelegramPublishTask> {
                 override fun execute(task: TelegramPublishTask) {
+
                     val configs = extension.taskList.get()
                     configs.forEach { build ->
                         val gradleTask = target.tasks.findByName(build.taskName)
-                            ?: throw Exception("Can't find task with name: $build")
+                            ?: throw Exception("Can't find task with name: ${build.taskName}")
+
                         task.dependsOn(gradleTask.path)
                     }
                     task.getConfig().set(extension)
                 }
             }
-            target.tasks.register("telegramPublish", TelegramPublishTask::class.java, action)
-
+            parent.tasks.register("telegramPublish", TelegramPublishTask::class.java, action)
         }
     }
 }

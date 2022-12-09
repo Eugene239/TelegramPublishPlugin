@@ -11,30 +11,52 @@ internal object Core {
     suspend fun exec(config: Configuration) = coroutineScope {
         val message = "Version: ${config.version}\n\n${config.releaseNotes}"
 
+        val outputs = config.tasks.map { task ->
+            val output = task.outputPath
+            val regex = task.fileRegex.toRegex()
+            val files = output.listFiles()
+                ?.filter { regex.matches(it.name) }.orEmpty()
+
+            task to files
+        }
+
+        // it's ok to have one output or more
+        var hasOutputs = false
+        outputs.forEach { pair ->
+            if (pair.second.isEmpty()) {
+                System.err.println("No outputs from task ${pair.first.taskName}")
+            } else {
+                hasOutputs = true
+            }
+        }
+
+        if (!hasOutputs) {
+            throw Exception("Check task output creation")
+        }
+
         TelegramApi.sendMessage(
             botToken = config.botToken,
             chatId = config.chatId,
             message = message
         )
 
-        config.tasks.forEach { task ->
-            val output = task.outputPath
-            val regex = task.fileRegex.toRegex()
-            output.listFiles()
-                ?.filter { regex.matches(it.name) }
-                ?.map {
-                    async {
-                        TelegramApi.sendDocument(
-                            botToken = config.botToken,
-                            chatId = config.chatId,
-                            version = config.version,
-                            file = it,
-                            prefix = task.prefix
-                        )
-                    }
-                }?.awaitAll()
-        }
+        outputs.map {
+            val task = it.first
+            val files = it.second
 
-
+            files.map { file ->
+                async {
+                    TelegramApi.sendDocument(
+                        botToken = config.botToken,
+                        chatId = config.chatId,
+                        version = config.version,
+                        file = file,
+                        prefix = task.prefix
+                    )
+                }
+            }
+        }.flatten()
+            .awaitAll()
     }
+
 }
