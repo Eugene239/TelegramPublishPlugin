@@ -7,7 +7,7 @@ plugins {
 }
 
 
-val buildVersion = "1.0.3"
+val buildVersion = "1.0.4"
 val groupName = "io.epavlov.telegram.publish"
 
 group = groupName
