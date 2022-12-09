@@ -1,5 +1,7 @@
 TelegramPublishPlugin
 ==============================
+[![](https://jitpack.io/v/Eugene239/TelegramPublishPlugin.svg)](https://jitpack.io/#Eugene239/TelegramPublishPlugin)
+
 Plugin to upload output artifacts to Telegram chats via bot
 
 Restriction
@@ -10,20 +12,32 @@ Restriction
 Download
 -----
 
-- Add plugin to classpath
+### Add Jitpack repository
 
-```kotlin
- classpath 'io.epavlov.telegram.publish:plugin:1.0.2'
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
-- Add Plugin to application
+### Add plugin to classpath
+
+```kotlin
+ classpath 'io.epavlov.telegram.publish:plugin:$version'
+```
+
+### Add Plugin to application
 
 ```kotlin
 apply(plugin = "io.epavlov.telegram.publish.plugin")
 ```
 
-- Configure extension:
-  Put your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` to your configuration
+### Configure extension:
+
+Put your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` to your configuration
 
 ```kotlin
 // build.gradle.kts
