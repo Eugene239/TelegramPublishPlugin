@@ -6,9 +6,8 @@ plugins {
     `maven-publish`
 }
 
-apply(from = "publish.gradle.kts")
 
-val buildVersion = "1.0.1"
+val buildVersion = "1.0.2"
 val groupName = "io.epavlov.telegram.publish"
 
 group = groupName

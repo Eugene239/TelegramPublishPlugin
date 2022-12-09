@@ -13,7 +13,7 @@ Download
 - Add plugin to classpath
 
 ```kotlin
- classpath 'io.epavlov.telegram.publish:plugin:1.0.0'
+ classpath 'io.epavlov.telegram.publish:plugin:1.0.2'
 ```
 
 - Add Plugin to application
