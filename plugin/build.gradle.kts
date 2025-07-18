@@ -1,57 +1,72 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.7.20"
-    `java-gradle-plugin`
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.gradle.publish)
     `maven-publish`
+    groovy
 }
 
 
-val buildVersion = "1.0.5"
-val groupName = "io.epavlov.telegram.publish"
-
+val buildVersion = "1.1.0"
+val groupName = "io.github.eugene239"
 group = groupName
 version = buildVersion
 
-repositories {
-    mavenCentral()
-    google()
-}
-
-tasks.withType<JavaCompile> {
-    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-    targetCompatibility = JavaVersion.VERSION_1_8.toString()
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
 }
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("gradle") {
+            groupId = groupName
+            artifactId = "gradle-publish-telegram"
+            version = buildVersion
+            from(components["java"])
+
+            pom {
+                url.set("https://github.com/Eugene239/TelegramPublishPlugin")
+
+                scm {
+                    url.set("https://github.com/Eugene239/TelegramPublishPlugin")
+                }
+            }
+        }
+    }
+}
 
 gradlePlugin {
+    website.set("https://github.com/Eugene239/TelegramPublishPlugin")
+    vcsUrl.set("https://github.com/Eugene239/TelegramPublishPlugin")
     plugins {
         create("TelegramPublishPlugin") {
-            id = "io.epavlov.telegram.publish.plugin"
-            implementationClass = "io.epavlov.telegram.publish.gradle.TelegramPublishPlugin"
+            id = "io.github.eugene239.gradle.publish.telegram"
+            implementationClass =
+                "io.github.eugene239.gradle.publish.telegram.TelegramPublishPlugin"
+            displayName = "Telegram Publish Plugin"
+            description = "Publish Android build to telegram chat"
+            @Suppress("UnstableApiUsage")
+            tags.set(listOf("publish", "telegram"))
         }
     }
 }
 
 dependencies {
-    val ktorVersion = "2.1.3"
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.android.tools.build:gradle:4.2.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation(libs.kotlinx.coroutines)
 
     // Ktor
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.client)
+    implementation(libs.ktor.serialization.kotlinx.json)
 }

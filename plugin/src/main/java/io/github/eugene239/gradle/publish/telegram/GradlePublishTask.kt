@@ -1,4 +1,4 @@
-package io.epavlov.telegram.publish.gradle
+package io.github.eugene239.gradle.publish.telegram
 
 import java.io.File
 

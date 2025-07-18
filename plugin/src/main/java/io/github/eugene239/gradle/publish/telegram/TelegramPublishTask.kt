@@ -1,7 +1,7 @@
-package io.epavlov.telegram.publish.gradle
+package io.github.eugene239.gradle.publish.telegram
 
-import io.epavlov.telegram.publish.logic.Core
-import io.epavlov.telegram.publish.logic.toConfiguration
+import io.github.eugene239.gradle.publish.telegram.internal.Core
+import io.github.eugene239.gradle.publish.telegram.internal.toConfiguration
 import kotlinx.coroutines.runBlocking
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property

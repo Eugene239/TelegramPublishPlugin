@@ -1,9 +1,8 @@
-package io.epavlov.telegram.publish.logic.network
+package io.github.eugene239.gradle.publish.telegram.internal.network
 
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.engine.okhttp.*
-import io.ktor.client.plugins.*
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
@@ -17,10 +16,9 @@ import java.io.File
 object TelegramApi {
     private const val BASE_URL = "https://api.telegram.org"
 
-    private val client = HttpClient(OkHttp) {
+    private val client = HttpClient(CIO) {
         install(ContentNegotiation) {
             json(Json {
-                expectSuccess = true
                 ignoreUnknownKeys = true
                 prettyPrint = true
             })
@@ -32,7 +30,7 @@ object TelegramApi {
         chatId: String,
         message: String
     ) {
-        kotlin.runCatching {
+        runCatching {
             println(">>>>> Sending ReleaseNotes")
             val response = client.post("$BASE_URL/bot${botToken}/sendMessage") {
                 parameter("chat_id", chatId)
@@ -53,7 +51,7 @@ object TelegramApi {
         version: String,
         file: File
     ) {
-        kotlin.runCatching {
+        runCatching {
             val fileName = "$prefix$version.${file.extension}"
             println(">>>>> Sending $file")
             val response = client.submitFormWithBinaryData("$BASE_URL/bot${botToken}/sendDocument",

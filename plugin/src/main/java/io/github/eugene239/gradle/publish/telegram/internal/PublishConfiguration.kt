@@ -1,7 +1,7 @@
-package io.epavlov.telegram.publish.logic
+package io.github.eugene239.gradle.publish.telegram.internal
 
-import io.epavlov.telegram.publish.gradle.GradlePublishTask
-import io.epavlov.telegram.publish.gradle.TelegramPublishExtension
+import io.github.eugene239.gradle.publish.telegram.GradlePublishTask
+import io.github.eugene239.gradle.publish.telegram.TelegramPublishExtension
 
 internal data class Configuration(
     val tasks: List<GradlePublishTask>,

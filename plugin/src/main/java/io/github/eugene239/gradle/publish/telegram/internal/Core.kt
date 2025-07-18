@@ -1,6 +1,6 @@
-package io.epavlov.telegram.publish.logic
+package io.github.eugene239.gradle.publish.telegram.internal
 
-import io.epavlov.telegram.publish.logic.network.TelegramApi
+import io.github.eugene239.gradle.publish.telegram.internal.network.TelegramApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

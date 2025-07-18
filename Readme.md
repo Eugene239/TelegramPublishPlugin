@@ -32,7 +32,7 @@ allprojects {
 ### Add Plugin to application
 
 ```kotlin
-apply(plugin = "io.epavlov.telegram.publish.plugin")
+apply(plugin = "io.github.eugene239.gradle.publish.telegram")
 ```
 
 ### Configure extension:
@@ -43,8 +43,8 @@ Put your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` to your configuration
 // build.gradle.kts
 
 // add imports
-import io.epavlov.telegram.publish.gradle.GradlePublishTask
-import io.epavlov.telegram.publish.gradle.TelegramPublishExtension
+import io.github.eugene239.gradle.publish.telegram.GradlePublishTask
+import io.github.eugene239.gradle.publish.telegram.TelegramPublishExtension
 
 configure<TelegramPublishExtension> {
     tasks.addAll(
@@ -73,7 +73,7 @@ or
 // build.gradle
 
 // add import
-import io.epavlov.telegram.publish.gradle.GradlePublishTask
+import io.github.eugene239.gradle.publish.telegram.GradlePublishTask
 
 telegramPublishConfig {
     taskList = [
@@ -124,7 +124,8 @@ Remove or Add new `GradlePublishTask` class
 
 ### Change output artifacts to `.aab`
 
-Change fileRegex field value to `.*\\.aab` or what you need, by default plugin search for `apk` files
+Change fileRegex field value to `.*\\.aab` or what you need, by default plugin search for `apk`
+files
 
 ### Add flavor build
 
